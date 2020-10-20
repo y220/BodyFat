@@ -10,8 +10,7 @@ ui <- fluidPage(
     column(2,
            numericInput("n1", label = h3("Age"), value = 5),
            selectInput("unit", "Unit of Measurement", 
-              choices = c("year")),
-           textOutput("Range1",container = h6)),
+              choices = c("year"))),
     column(2,
            numericInput("n2", label = h3("Height"), value = 2),
            selectInput("unit", "Unit of Measurement", 
@@ -36,9 +35,6 @@ server <- function(input, output) {
   })
   output$String = renderText({
     "This app is used to calculate your percentage of bady fat by the following statistics of your body:"
-  })
-  output$Range1 =  renderText({
-    "Range : 0~100"
   })
   output$Bodyfat = renderText({
     "BodyFat"

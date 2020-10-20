@@ -1,3 +1,4 @@
+rm(list = ls())
 library(car)
 
 # Body Fat data
@@ -58,6 +59,13 @@ BodyFat[42,6]<-sqrt(BodyFat[42,5]*703/BodyFat[42,7])
 summary(BodyFat)
 
 # modelling
+## AIC
+fullmod<-lm(BODYFAT~. , data = BodyFat)
+step(fullmod, direction = "both", trace = 1, k =2 )  # BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST
+mod0<-lm(BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST, data = BodyFat)
+summary(mod0)
+vif(mod0)  # weight multicollinearity
+
 ## BIC
 fullmod<-lm(BODYFAT~., data = BodyFat)
 step(fullmod, direction = "both", trace = 1, k = log(dim(BodyFat)[1]))  # BODYFAT ~ WEIGHT + ABDOMEN + FOREARM + WRIST
@@ -132,7 +140,7 @@ colnames(x)<-NULL
 pc<-x %*% e
 colnames(pc)<-c("pc1", "pc2")
 bodyfat<-data.frame("bodyfat" = BodyFat[,1], pc)
-mod2<-lm(bodyfat~., data = bodyfat)
+mod2<-lm(bodyfat~. , data = bodyfat)
 summary(mod2)
 
 ## BodyFat~AGE+ADIPOSITY (formula from wikipedia)
@@ -166,7 +174,7 @@ accuracy<-function(df, train.id, test.id){
   mse1<-mean((test[,1]-pred1)^2)
   mse2<-mean((test[,1]-pred2)^2)
   mse3<-mean((test[,1]-pred3)^2)
-  return(c(mse1, mse2, mse3))
+  return(c(mse1, mse2, mse3)) 
 }
 
 tt.ratio<-0.7
@@ -190,3 +198,5 @@ plot(y.fit, res, xlab = "fit", ylab = "residual", main = "fitted vs. residual")
 qqnorm(res, datax = TRUE, ylab = "residual", xlab = "quantile")
 qqline(res, datax = TRUE)
 ## consider normality assumption satisfied (tails thinner than normal distribution)
+
+
