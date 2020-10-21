@@ -13,5 +13,39 @@
 \sffamily
 \maketitle
 \section{\sffamily Introduction}
+A variety of popular health books suggest that the readers assess their 
+health, at least in part, by estimating their percentage of body fat.
+The goal of the project is to come up with 
+a simple and accurate way of deteriming body fat percentage of males
+based on readily available clinical measurements and find the rule of thumb.\\
+\textbf{Our rule of thumb:} $$ BodyFat = $$
+\section{\sffamily Background}
+The data set contains measurements from 252 men who had their body fat 
+percentage accurately measured via underwater weighing. Notice that the 
+outcome variable is body fat percentage and he set of predictors are 
+every variable except ID number, body fat percentage, and density.
+\section{\sffamily Motivation and Statement}
+\subsection{\sffamily Motivation}
+In the beginning we have used linear model step selection by using 
+AIC or BIC to find the best model which may lead to multicollinearity during fitting the model.
+So we use the principal component analysis to find the PC(principal components), and
+then use PCs to find linear model.
 
+\subsection{\sffamily Statement of the Model}
+First, we calculate the covariance matrix of the data set for 15 variables.
+Then we calculate the eigenvalues and the eigenvectors of the matrix.
+Then calculate the cumsum of the eigenvalues and divided by sum of eigenvectors and equals to cumvariance. 
+This value is the main result which is use to find the principle components.\\
+\newline
+Second, we plot the cumvariance and select the top two eigenvalues as the PCs: PC1 and PC2.
+Actually they are the linear combination of the variables. Then we use the PCs
+as variables to fit the linear model.
+
+\section{\sffamily Estimation and Inference of Parameters}
+
+\section{\sffamily Model Diagnostics}
+
+\section{\sffamily Strengths and Weakness}
+
+\section{\sffamily Conclusion}
 \end{document}
