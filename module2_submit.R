@@ -5,7 +5,7 @@ library(car)
 BodyFat<-read.csv("BodyFat.csv", header = TRUE)
 attach(BodyFat)
 dim(BodyFat)  # 252 observations, 17 variables
-colnames(BodyFfat)
+colnames(BodyFat)
 ## BODYFAT-percent body fat from Siri's eqation
 ## DENSITY-density determined from underwater weighing (not considered as predictor)
 ## WEIGHT-weight(lbs)
@@ -212,9 +212,9 @@ qqline(residuals(mod.red), datax = TRUE)
 ## consider normality assumption satisfied (left tail thinner than normal distribution)
 plot(mod.red, which = 4)
 
-## Since no.39 may not be influential point, no.39 should not be dropped from the dataset. 
-summary(mod)
-### BODYFAT ~ -26.3981 + 0.1471*pc1 + 0.1846*pc2
+## no.39 may not be influential point
+summary(mod.red)
+### BODYFAT ~ -29.7950 + 0.1610*pc1 + 0.1829*pc2
 
 ## BodyFat~AGE+ADIPOSITY (formula from wikipedia)
 reg<-lm(BODYFAT ~ AGE + ADIPOSITY, data = BodyFat)
@@ -239,13 +239,50 @@ qqline(residuals(reg.red), datax = TRUE)
 ## consider normality assumption satisfied (tail thinner than normal distribution)
 plot(reg.red, which = 4)
 
-## Since no.39 may not be influential point, no.39 should not be dropped from the dataset. 
-summary(reg)
-### BODYFAT ~ -23.8706 + 0.1243*AGE + 1.4662*ADIPOSITY
+## no.39 may not be influential point
+summary(reg.red)
+### BODYFAT ~ -27.9714 + 0.1193*AGE + 1.6393*ADIPOSITY
 
 ## Comparison: principal component regression is more interpretable, while formula from wikipedia is quite simple
 ## use principal component regression as the final model
 
+# make model more simplier
+bodyfat.red<-BodyFat[-39,]
+Sigma.red<-cov(bodyfat.red[,-1])
+eigen.val.red<-eigen(Sigma.red)$values
+eigen.vec.red<-eigen(Sigma.red)$vectors
+cum.var.red<-cumsum(eigen.val.red)/sum(eigen.val.red)
+plot(1:14, cum.var.red)  # use first two principal components
+e.red<-eigen.vec.red[,1:2]
+print(e.red)
+## pc1 = 0.0036*AGE + 0.8758*WEIGHT + 0.0331*HEIGHT + 0.0970*ADIPOSITY + 0.0570*NECK + 
+##       0.2417*CHEST + 0.3000*ABDOMEN + 0.1983*HIP + 0.1364*THIGH + 0.0630*KNEE +
+##       0.0302*ANKLE + 0.0738*BICEPS + 0.0441*FOREARM + 0.0210*WRIST
+## pc2 = 0.9614*AGE - 0.0823*WEIGHT - 0.0624*HEIGHT + 0.0353*ADIPOSITY + 0.0172*NECK + 
+##       0.1177*CHEST + 0.1985*ABDOMEN - 0.0365*HIP - 0.0894*THIGH - 0.0031*KNEE -
+##       0.0176*ANKLE - 0.0155*BICEPS - 0.0170*FOREARM + 0.0127*WRIST
+## only keep those relative important predictors: AGE, WEIGHT, CHEST, ABDOMEN, HIP, THIGH
+df<-bodyfat.red[,c(1,2,3,7,8,9,10)]
+e<-matrix(c(0, 0.88, 0.24, 0.30, 0.20, 0.14, 0.96, 0, 0, 0, 0, 0), 
+          byrow = FALSE, ncol = 2, nrow = 6)
+x<-as.matrix(df[,-1])
+colnames(x)<-NULL
+pc<-x %*% e
+colnames(pc)<-c("pc1", "pc2")
+df.pc<-data.frame("bodyfat" = df[,1], pc)
+mod<-lm(bodyfat ~ ., data = df.pc)
+summary(mod)
+plot(mod$fitted.values, mod$residuals, xlab = "fitted values", ylab = "residuals", 
+     main = "residuals vs. fitted")
+## consider no outlier and equal variance
+qqnorm(residuals(mod), datax = TRUE, xlab = "theoretical percentile", ylab = "residuals")
+qqline(residuals(mod), datax = TRUE)
+## consider normality assumption satisfied (left tail thinner than normal distribution)
+plot(mod, which = 4)
+### BODYFAT ~ -27.5858 + 0.1644*pc1 + 0.1759*pc2
+### pc1 ~ 0.88*WEIGHT + 0.24*CHEST + 0.30*ABDOMEN + 0.20*HIP + 0.14*THIGH
+### pc2 ~ 0.96*AGE
+vif(mod)
 
 ## what we also consider about multicollinearity
 ### ridge regression
