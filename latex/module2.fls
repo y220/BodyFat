@@ -71,7 +71,10 @@ OUTPUT d:/Term3/stat628hw2/BodyFat/latex/module2.pdf
 INPUT d:/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT d:/Term3/stat628hw2/BodyFat/latex/module2.aux
 INPUT d:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+INPUT d:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
 INPUT d:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
+INPUT d:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT d:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb
 INPUT d:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb
 INPUT d:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb
+INPUT d:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
