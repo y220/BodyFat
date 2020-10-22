@@ -1,6 +1,6 @@
 rm(list = ls())
 library(car)
-
+library(xtable)
 BodyFat<-read.csv("BodyFat.csv", header = TRUE)
 
 # data pre-processing
