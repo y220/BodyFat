@@ -319,3 +319,5 @@ mse<-unlist(lapply(all.fit, FUN = function(l){return(l$par[2])}))
 mod1<-all.fit[[which(mse == min(mse))]]
 allsubset[which(mse == min(mse)),]  # BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST
 ### ridge regression include too many predictors
+
+

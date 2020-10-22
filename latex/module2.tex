@@ -18,7 +18,7 @@ health, at least in part, by estimating their percentage of body fat.
 The goal of the project is to come up with 
 a simple and accurate way of deteriming body fat percentage of males
 based on readily available clinical measurements and find the rule of thumb.\\
-\textbf{Our rule of thumb:} $$ BodyFat = $$
+\textbf{Our rule of thumb:} $$ {\rm BodyFat} = $$
 \section{\sffamily Background}
 The data set contains measurements from 252 men who had their body fat 
 percentage accurately measured via underwater weighing. Notice that the 
@@ -38,9 +38,9 @@ Then calculate the cumsum of the eigenvalues and divided by sum of eigenvectors 
 This value is the main result which is use to find the principle components.\\
 \newline
 Second, we plot the cumvariance and select the top two eigenvalues as the PCs: PC1 and PC2.
-Actually they are the linear combination of the variables. Then we use the PCs
-as variables to fit the linear model.
-
+Then we need to remove the variables whose coefficient are so small.\\
+\newline 
+At last, we use PCs as variables to fit the linear model and diagnose and remedy.
 \section{\sffamily Estimation and Inference of Parameters}
 
 \section{\sffamily Model Diagnostics}
