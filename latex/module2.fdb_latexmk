@@ -1,9 +1,9 @@
 # Fdb version 3
-["pdflatex"] 1603424204 "d:/Term3/stat628hw2/BodyFat/latex/module2.tex" "d:/Term3/stat628hw2/BodyFat/latex/module2.pdf" "module2" 1603424206
+["pdflatex"] 1603424301 "d:/Term3/stat628hw2/BodyFat/latex/module2.tex" "d:/Term3/stat628hw2/BodyFat/latex/module2.pdf" "module2" 1603424302
   "2.png" 1603400062 5545 8dafcc4261ef40fa413e3293c8d17ebd ""
   "3.png" 1603400077 4996 379fbe5f01c26404695d217fec2db08e ""
-  "d:/Term3/stat628hw2/BodyFat/latex/module2.aux" 1603424206 1080 a2b7393675cc44ef8317d90bf4c05497 ""
-  "d:/Term3/stat628hw2/BodyFat/latex/module2.tex" 1603424203 4381 eabb1d610b0c36d90387f75c01bd0c5c ""
+  "d:/Term3/stat628hw2/BodyFat/latex/module2.aux" 1603424302 1080 a2b7393675cc44ef8317d90bf4c05497 ""
+  "d:/Term3/stat628hw2/BodyFat/latex/module2.tex" 1603424299 4379 d514e233fcdcdd3e5458413d52e22eda ""
   "d:/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1600557804 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "d:/texlive/2020/texmf-dist/fonts/map/fontname/texfonts.map" 1600558792 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "d:/texlive/2020/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1600558393 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
@@ -53,11 +53,11 @@
   "d:/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1600562780 5058106 4b0697c4d7a64c78bd0596bc24bade7f ""
   "d:/texlive/2020/texmf-var/web2c/pdftex/pdflatex.fmt" 1600563088 2444772 d9c860ccbd43628575dc642e1282fafd ""
   "d:/texlive/2020/texmf.cnf" 1600562739 673 4ae7b2f49cee444c5343a45b5d0f169c ""
-  "module2.aux" 1603424206 1080 a2b7393675cc44ef8317d90bf4c05497 "pdflatex"
-  "module2.tex" 1603424203 4381 eabb1d610b0c36d90387f75c01bd0c5c ""
+  "module2.aux" 1603424302 1080 a2b7393675cc44ef8317d90bf4c05497 "pdflatex"
+  "module2.tex" 1603424299 4379 d514e233fcdcdd3e5458413d52e22eda ""
   (generated)
-  "module2.aux"
-  "module2.pdf"
-  "module2.log"
   "d:/Term3/stat628hw2/BodyFat/latex/module2.pdf"
+  "module2.pdf"
   "d:/Term3/stat628hw2/BodyFat/latex/module2.log"
+  "module2.log"
+  "module2.aux"
