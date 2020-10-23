@@ -12,7 +12,7 @@ This folder contains all the code for our analysis (e.g. cleaning the data, runn
 ## [Image](image/)
 This folder contains any figures/images/tables produced in our analysis.
 
-## [Summary](summary/) 
+## [Summary](summary.pdf) 
 The two-page summary file contains the summary above.
 
 ## [Shiny_app](shiny_app/)
