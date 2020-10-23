@@ -1,5 +1,5 @@
 # STAT628 HW2 
-## Goal: BodyFat Calculater
+## [Goal](guideline/)
 In this project, our group will come up with a simple, robust, and accurate “rule-of-thumb” to estimate percentage of body fat using clinically available measurements.\
 Our “rule-of-thumb” will be based on a real data set of 252 men with measurements of their percentage of body fat and various body circumference measurements.
 
