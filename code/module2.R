@@ -1,3 +1,8 @@
+## Contributions
+## MC created the code and proposed modelling part. 
+## YF proposed ideas model selection and model diagnostic method. 
+## YS reviewed the code and gave some suggestions on data cleaning. 
+
 rm(list = ls())
 library(car)
 library(xtable)
@@ -146,6 +151,13 @@ vif(reg)
 
 
 # appendix (other methods we tried)
+## AIC
+fullmod<-lm(BODYFAT~. , data = BodyFat)
+step(fullmod, direction = "both", trace = 1, k =2 )  # BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST
+mod0<-lm(BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST, data = BodyFat)
+summary(mod0)
+vif(mod0)  # hip multicollinearity
+
 ## BIC
 fullmod<-lm(BODYFAT~., data = BodyFat)
 step(fullmod, direction = "both", trace = 1, k = log(dim(BodyFat)[1]))  # BODYFAT ~ WEIGHT + ABDOMEN + FOREARM + WRIST
