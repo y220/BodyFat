@@ -1,7 +1,6 @@
 library(shiny)
-f <- function(input) { 
-    #if conditioning
-    result=0;
+f <- function(input) {
+    result = 0
     result=0.02*(input$Age)-0.13*(input$Weight)-0.26*(input$Height)+0.18*(input$Adiposity)+0.30*(input$Chest)+0.54*(input$Abdomen)+0.11*(input$Hip)+0.09*(input$Thigh)-41.16 
     return(result)
 }
