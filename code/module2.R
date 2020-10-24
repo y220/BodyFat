@@ -139,7 +139,7 @@ qqnorm(residuals(reg), datax = TRUE, xlab = "theoretical percentile", ylab = "re
 qqline(residuals(reg), datax = TRUE)
 ## consider normality assumption satisfied (left tail thinner than normal distribution)
 
-plot(reg)
+plot(reg, which = 4)
 
 ## consider no influential point
 ## BODYFAT ~ -41.1569 + 0.1611*pc1 + 0.1738*pc2 + 0.6827*pc3
