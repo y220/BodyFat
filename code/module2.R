@@ -225,3 +225,8 @@ allsubset[which(mse == min(mse)),]
 ### ridge regression stil include too many predictors
 
 detach(BodyFat)
+
+
+
+
+
