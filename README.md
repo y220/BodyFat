@@ -13,7 +13,8 @@ This folder contains all the code for our analysis (e.g. cleaning the data, runn
 This folder contains any figures/images/tables produced in our analysis.
 
 ## [Summary](summary.pdf) 
-The two-page summary file contains the summary above.
+The two-page summary file contains the summary of this project.
 
 ## [Shiny_app](shiny_app/)
-This fold contains the shiny app and if you want to run it, open main.R and run in R or browser.
+This fold contains the shiny app and if you want to run it, open main.R and run in R or browser.\
+Also you can visit <https://yukun.shinyapps.io/Bodyfat_shiny_app/> to use it.
