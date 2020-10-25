@@ -1,7 +1,7 @@
 ## Contributions
 ## MC created the code and proposed modelling part. 
 ## YF proposed ideas model selection and model diagnostic method. 
-## YS reviewed the code and gave some suggestions on data cleaning. 
+
 
 rm(list = ls())
 library(car)
