@@ -48,7 +48,6 @@ mod<-lm(bodyfat~., data = bodyfat)
 summary(mod)
 
 
-
 # model diagnosis: principal component regression
 ## principal component
 print(e)
@@ -113,7 +112,6 @@ summary(mod.red)
 ### BODYFAT ~ -41.3962 + 0.1627*pc1 + 0.1828*pc2 + 0.6809*pc3
 
 
-
 # make model simplier (drop outlier no.39)
 df<-bodyfat.red[,-c(6,11,12,13,14,15)]
 e<-round(e.red, digits = 2)
@@ -145,88 +143,126 @@ plot(reg, which = 4)
 ## BODYFAT ~ -41.1569 + 0.1611*pc1 + 0.1738*pc2 + 0.6827*pc3
 para<-reg$coefficients[2:4]
 coef<-round(e %*% para, digits = 2)
-## BODYFAT ~ -41.1569 
+## BODYFAT ~ -41.1569 + 0.02*AGE - 0.13*WEIGHT -0.26*HEIGHT + 0.19*ADIPOSITY +0.30*CHEST
+##          +0.54*ABDOMEN + 0.11*HIP + 0.09*THIGH
 vif(reg)
 
 
 
-# # appendix (other methods we tried)
-# ## AIC
-# fullmod<-lm(BODYFAT~. , data = BodyFat)
-# step(fullmod, direction = "both", trace = 1, k =2 )  # BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST
-# mod0<-lm(BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST, data = BodyFat)
-# summary(mod0)
-# vif(mod0)  # hip multicollinearity
-# 
-# ## BIC
-# fullmod<-lm(BODYFAT~., data = BodyFat)
-# step(fullmod, direction = "both", trace = 1, k = log(dim(BodyFat)[1]))  # BODYFAT ~ WEIGHT + ABDOMEN + FOREARM + WRIST
-# mod1<-lm(BODYFAT ~ WEIGHT + ABDOMEN + FOREARM + WRIST, data = BodyFat)
-# summary(mod1)
-# vif(mod1)  # weight multicollinearity
-# 
-# ## only keep important variable & use Mallow's cp
-# sub.bf<-BodyFat[,c(1, 5, 7, 8, 9, 10)]
-# fitall<-lm(BODYFAT~., data = sub.bf)
-# sigma2<-summary(fitall)$sigma^2
-# allsubset<-as.matrix(expand.grid("ADIPOSITY" = 0:1, "CHEST" = 0:1, "ABDOMEN" = 0:1, "HIP" = 0:1, "THIGH" = 0:1))[-1,]
-# var.name<-c("ADIPOSITY", "CHEST", "ABDOMEN", "HIP", "THIGH")
-# sse<-apply(allsubset, MARGIN = 1, 
-#            FUN = function(ind) {var.sub<-var.name[which(ind == 1)]; 
-#            f<-formula(paste("BODYFAT", "~", paste(var.sub, collapse = "+")));
-#            reg<-lm(f, data = BodyFat);
-#            return(sum(residuals(reg)^2))})
-# n<-dim(BodyFat)[1]
-# cp<-sse/sigma2-n+2*rowSums(allsubset)
-# cp.table<-cbind(allsubset, "p" = rowSums(allsubset), "cp" = round(cp, digits = 4))   # BODYFAT ~ CHEST + ABDOMEN + HIP
-# mod2<-lm(BODYFAT ~ CHEST + ABDOMEN + HIP, data = BodyFat)
-# summary(mod2)
-# vif(mod2)  # ABDOMEN multicollinearity
-# 
-# ## BodyFat~AGE+ADIPOSITY (formula from wikipedia)
-# ### cited from https://en.wikipedia.org/wiki/Body_fat_percentage
-# mod3<-lm(BODYFAT ~ AGE + ADIPOSITY, data = BodyFat)
-# summary(mod3)
-# 
-# ## ridge regression
-# ridge<-function(df, lambda){
-#   n<-nrow(df)
-#   x<-cbind(rep(1, n), as.matrix(df[, -1]))
-#   y<-as.matrix(df[,1])
-#   p<-ncol(df)-1
-#   coef<-apply(as.matrix(lambda, ncol = 1), MARGIN = 1, 
-#               FUN = function(l) {return(solve(t(x)%*%x + l*diag(x = 1, nrow = p+1, ncol = p+1)) %*% t(x) %*% y)})
-#   mse<-apply(coef, MARGIN = 2, 
-#              FUN = function(c){y.pred<-x %*% c; 
-#              return(sum((y-y.pred)^2)/(n-p))})
-#   idx<-which(mse == min(mse))
-#   parmse<-c(lambda[idx], mse[idx])
-#   coefficient<-coef[,idx]
-#   return(list("par" = parmse, "coef" = coefficient))
-# }
-# 
-# lambda<-seq(0.1, 5, by = 0.1)
-# allsubset<-as.matrix(expand.grid("AGE" = 0:1, "WEIGHT" = 0:1, "HEIGHT" = 0:1, 
-#                                  "ADIPOSITY" = 0:1, "NECK" = 0:1, "CHEST" = 0:1, 
-#                                  "ABDOMEN" = 0:1, "HIP" = 0:1, "THIGH" = 0:1, 
-#                                  "KNEE" = 0:1, "ANKLE" = 0:1, "BICEPS" = 0:1, 
-#                                  "FOREARM" = 0:1, "WRIST" = 0:1))[-1,]
-# var.name<-colnames(BodyFat)[-1]
-# all.fit<-apply(allsubset, MARGIN = 1, 
-#                FUN = function(ind){var.sub<-var.name[which(ind == 1)]; 
-#                f<-formula(paste("BODYFAT", "~", paste(var.sub, collapse = "+"))); 
-#                df<-BodyFat[,c(1, (which(ind == 1)+1))]; 
-#                out<-ridge(df, lambda); 
-#                return(out)})
-# mse<-unlist(lapply(all.fit, FUN = function(l){return(l$par[2])}))
-# mod4<-all.fit[[which(mse == min(mse))]]
-# allsubset[which(mse == min(mse)),]
-# ### BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST
-# ### ridge regression stil include too many predictors
-# 
-# detach(BodyFat)
+# appendix (other methods we tried)
+## AIC
+fullmod<-lm(BODYFAT~. , data = BodyFat)
+step(fullmod, direction = "both", trace = 1, k =2 )  # BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST
+mod0<-lm(BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST, data = BodyFat)
+summary(mod0)
+vif(mod0)  # abdomen multicollinearity
 
+## BIC
+fullmod<-lm(BODYFAT~., data = BodyFat)
+step(fullmod, direction = "both", trace = 1, k = log(dim(BodyFat)[1]))  # BODYFAT ~ WEIGHT + ABDOMEN + FOREARM + WRIST
+mod1<-lm(BODYFAT ~ WEIGHT + ABDOMEN + FOREARM + WRIST, data = BodyFat)
+summary(mod1)
+vif(mod1)  # weight multicollinearity
 
+## only keep important variable & use Mallow's cp
+sub.bf<-BodyFat[,c(1, 5, 7, 8, 9, 10)]
+fitall<-lm(BODYFAT~., data = sub.bf)
+sigma2<-summary(fitall)$sigma^2
+allsubset<-as.matrix(expand.grid("ADIPOSITY" = 0:1, "CHEST" = 0:1, "ABDOMEN" = 0:1, "HIP" = 0:1, "THIGH" = 0:1))[-1,]
+var.name<-c("ADIPOSITY", "CHEST", "ABDOMEN", "HIP", "THIGH")
+sse<-apply(allsubset, MARGIN = 1, 
+           FUN = function(ind) {var.sub<-var.name[which(ind == 1)]; 
+           f<-formula(paste("BODYFAT", "~", paste(var.sub, collapse = "+")));
+           reg<-lm(f, data = BodyFat);
+           return(sum(residuals(reg)^2))})
+n<-dim(BodyFat)[1]
+cp<-sse/sigma2-n+2*rowSums(allsubset)
+cp.table<-cbind(allsubset, "p" = rowSums(allsubset), "cp" = round(cp, digits = 4))   # BODYFAT ~ CHEST + ABDOMEN + HIP
+mod2<-lm(BODYFAT ~ CHEST + ABDOMEN + HIP, data = BodyFat)
+summary(mod2)
+vif(mod2)  # ABDOMEN multicollinearity
 
+## BodyFat~AGE+ADIPOSITY (formula from wikipedia)
+### cited from https://en.wikipedia.org/wiki/Body_fat_percentage
+mod3<-lm(BODYFAT ~ AGE + ADIPOSITY, data = BodyFat)
+summary(mod3)
 
+## ridge regression
+ridge<-function(df, lambda){
+  n<-nrow(df)
+  x<-cbind(rep(1, n), as.matrix(df[, -1]))
+  y<-as.matrix(df[,1])
+  p<-ncol(df)-1
+  coef<-apply(as.matrix(lambda, ncol = 1), MARGIN = 1, 
+              FUN = function(l) {return(solve(t(x)%*%x + l*diag(x = 1, nrow = p+1, ncol = p+1)) %*% t(x) %*% y)})
+  mse<-apply(coef, MARGIN = 2, 
+             FUN = function(c){y.pred<-x %*% c; 
+             return(sum((y-y.pred)^2)/(n-p))})
+  idx<-which(mse == min(mse))
+  parmse<-c(lambda[idx], mse[idx])
+  coefficient<-coef[,idx]
+  return(list("par" = parmse, "coef" = coefficient))
+}
 
+lambda<-seq(0.1, 5, by = 0.1)
+allsubset<-as.matrix(expand.grid("AGE" = 0:1, "WEIGHT" = 0:1, "HEIGHT" = 0:1, 
+                                 "ADIPOSITY" = 0:1, "NECK" = 0:1, "CHEST" = 0:1, 
+                                 "ABDOMEN" = 0:1, "HIP" = 0:1, "THIGH" = 0:1, 
+                                 "KNEE" = 0:1, "ANKLE" = 0:1, "BICEPS" = 0:1, 
+                                 "FOREARM" = 0:1, "WRIST" = 0:1))[-1,]
+var.name<-colnames(BodyFat)[-1]
+all.fit<-apply(allsubset, MARGIN = 1, 
+               FUN = function(ind){var.sub<-var.name[which(ind == 1)]; 
+               f<-formula(paste("BODYFAT", "~", paste(var.sub, collapse = "+"))); 
+               df<-BodyFat[,c(1, (which(ind == 1)+1))]; 
+               out<-ridge(df, lambda); 
+               return(out)})
+mse<-unlist(lapply(all.fit, FUN = function(l){return(l$par[2])}))
+mod4<-all.fit[[which(mse == min(mse))]]
+allsubset[which(mse == min(mse)),]
+### BODYFAT ~ AGE + WEIGHT + NECK + ABDOMEN + HIP + THIGH + FOREARM + WRIST
+### ridge regression stil include too many predictors
+
+detach(BodyFat)
+
+## model selection
+accuracy<-function(df, train.id, test.id){
+  train<-df[train.id,]
+  test<-df[test.id,]
+  x.train<-as.matrix(train[,-c(1,6,11,12,13,14,15)])
+  colnames(x.train)<-NULL
+  Sigma<-cov(train[,-c(1,6,11,12,13,14,15)])
+  eigen.val<-eigen(Sigma)$values
+  eigen.vec<-eigen(Sigma)$vectors
+  e<-eigen.vec[,1:3]
+  x.pc<-x.train %*% e
+  colnames(x.pc)<-c("pc1", "pc2", "pc3")
+  train.pc<-data.frame("BODYFAT" = train[,1], x.pc)
+  x.test<-as.matrix(test[,-c(1,6,11,12,13,14,15)])
+  colnames(x.test)<-NULL
+  xt.pc<-x.test %*% e
+  colnames(xt.pc)<-c("pc1", "pc2", "pc3")
+  test.pc<-data.frame("BODYFAT" = test[,1], xt.pc)
+  # fit the model
+  mod1<-lm(BODYFAT ~ WEIGHT + ABDOMEN + FOREARM + WRIST, data = train)  # select BIC
+  mod2<-lm(BODYFAT ~ ., data = train.pc)  # principal component regression
+  mod3<-lm(BODYFAT ~ AGE + ADIPOSITY, data = train)  # existing formula
+  # predict in test subset
+  pred1<-predict(mod1, newdata = test)
+  pred2<-predict(mod2, newdata = test.pc)  # principal component regression
+  pred3<-predict(mod3, newdata = test)  # existing formula
+  # accuracy (measured using mean square error)
+  rmse1<-mean((test[,1]-pred1)^2)
+  rmse2<-mean((test[,1]-pred2)^2)
+  rmse3<-mean((test[,1]-pred3)^2)
+  return(c(rmse1, rmse2, rmse3))
+}
+
+n<-dim(BodyFat)[1]
+tt.ratio<-0.7
+n.train<-n*tt.ratio
+acc.rep<-replicate(n = 5000, 
+                   expr = {train.id<-sample(x = 1:n, size = n.train, replace = FALSE);
+                   test.id<-seq(1, n)[-train.id]; 
+                   accuracy(BodyFat, train.id, test.id)})
+acc<-rowMeans(acc.rep)
