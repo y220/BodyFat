@@ -7,10 +7,10 @@ myserver <- function(input, output) {
   output$Developer2 = renderUI({
     tagList("Mengkun Chen", url2 ,": Write the formula of the bodyfat." )  
   })  
-  url3 <- a("jshen226@wisc.edu", href="http://jshen226@wisc.edu")
-  output$Developer3 = renderUI({
-     tagList("Jiayi Shen ", url3 ,": Create different measurement units for different variables." )  
-   })  
+  url3 <- a("yfang67@wisc.edu", href="http://yfang67@wisc.edu")
+  # output$Developer3 = renderUI({
+  #   tagList("Jiayi Shen ", url3 ,": Create different measurement units for different variables." )  
+  # })  
   output$String = renderText({
     "This app is used to calculate your percentage of bady fat by the following statistics of your body:"
   })
